@@ -1,0 +1,50 @@
+<html>
+
+<head>
+<title>Undacity Data Analyst Nanodegree Project 1</title>
+</head>
+
+<body>
+<h1>Statistics: The Science of Decisions<h1>
+<h2>1. What is our independent variable? What is our dependent variable?</h2>
+<p>Based on the dataset, the independent variable is the condition in the Stroop test. This refers to whether the color words match the color they are printed in or not. The dependent variable is the performance of the participants on the Stroop test. This is defined as the number of seconds it takes the participant to read each list.</p>
+
+<h2>2. What is an appropriate set of hypotheses for this task? What kind of statistical test do you expect to perform? Justify your choices.</h2>
+<p>Given the assumption that printing color words in incongruent colors would negatively affect the length of time it takes a participant to read the list of words, one appropriate set of hypotheses would be as follows:</p>
+<ul><li>The null hypothesis would be that the mean number of seconds for the congruent condition would be equal to or greater than the mean number of seconds for the incongruent condition.</li>
+<li>The alternative hypothesis would be that the mean number of seconds for the incongruent condition would be greater than the mean number of seconds for the congruent condition.</li></ul>
+<p>Given that the dataset consists of paired data where each partipant completed the Stroop test once in the Congruent condition and once in the Incongruent condition and the hypothesis involves the comparison of means, the appropriate statistical test would be the paired t-test. As there is an assumption of how the means would differ, a one-tailed t-test would be most appropriate. For this project, an alpha level of .05 will be used.</p>
+<h2>3. Report some descriptive statistics regarding this dataset. Include at least one measure of central tendency and at least one measure of variability.</h2>
+
+<!--begin.rcode preload, echo=FALSE
+stroop <- read.csv("stroopdata.csv")
+ttest <- t.test(stroop$Congruent, stroop$Incongruent, paired=TRUE, alternative="l")
+
+end.rcode-->
+
+<p>The mean number of seconds taken to complete the task in the congruent condition was  <!--rinline  round(mean(stroop$Congruent),2)--> seconds and the mean number of seconds taken to complete the task in the incongruent condition was  <!--rinline  round(mean(stroop$Incongruent),2)--> seconds. The standard deviation for the congruent condition was  <!--rinline  round(sd(stroop$Congruent),2)--> seconds and the standard deviation for the congruent condition was  <!--rinline  round(sd(stroop$Incongruent),2)--> seconds.
+
+<h2>4. Provide one or two visualizations that show the distribution of the sample data. Write one or two sentences noting what you observe about the plot or plots.</h2>
+<p>Here is a plot showing all the points in the dataset. In addition, lines were drawn to represent the means of both conditions. As the legend shows, data for the congruent condition is in blue and the data for the incongruent condition is in red.</p>
+
+<!--begin.rcode plot, echo=FALSE
+plot(stroop$Congruent, ylim=c(0,max(stroop$Incongruent)+4), ylab="Seconds", xlab="", main="Comparison of Congruent Word and\nIncongruent Word Conditions in the Stroop Test")
+points(stroop$Incongruent, col="red", pch=19)
+points(stroop$Congruent, col="blue", pch=19)
+abline(h=mean(stroop$Congruent), col="blue", lwd=2)
+abline(h=mean(stroop$Incongruent), col="red", lwd=2)
+legend(1,40, c("Congruent Words","Incongruent Words"), pch=19, col=c("blue","red"))
+end.rcode-->
+
+<p>As this is paired data, each set of red and blue points represents the performance of one participant. One can see that in every case, the red point is above the blue point, and the red line is above the blue line, suggesting that the incongruent condition does negatively affect a participant's performance on the Stroop test.</p>
+
+<h2>5. Now, perform the statistical test and report your results. What is your confidence level and your critical statistic value? Do you reject the null hypothesis or fail to reject it? Come to a conclusion in terms of the experiment task. Did the results match up with your expectations?</h2>
+<p>Running the one-tailed paired t-test results in a t value of <!-- rinline ttest$statistic -->. With 23 degrees of freedom and an alpha level of .05, the critical t statistic is -1.714. The p-value of this test is <!-- rinline ttest$p.value -->. This is well below the alpha level and as a result we reject the null hypothesis and acceptt the alternative hypothesis that the mean number of seconds for the incongruent condition is significantly higher than the mean number of seconds for the congruent condition.</p>
+<p>With the alternative hypothesis accepted, we can conclude that printing color words in an incongruent color negatively affects the performance of participants. This result definitely matches my pre-analysis expectations.</p>
+<h2>6. Optional: What do you think is responsible for the effects observed? Can you think of an alternative or similar task that would result in a similar effect? Some research about the problem will be helpful for thinking about these two questions!</h2>
+<p>One hypothesis about how this effect occurs relates to the amount of processing that each task needs. When the printed color is congruent with the color word, the task needs less processing which leads to improved performance. When the two types of color are incongruent, the brain needs to parse the two values to determine which is the appropriate value for the task, leading to decreased performance.</p>
+<p>Given this a similar task which might result in a similar effect would be test the effect of distraction on the task performance, which would have implications on the effect of multi-tasking.</p>
+<h3>References</h3>
+<p>For this project, the only references came from my previous knowledge about the Stroop effect, and from what was listed on the project instructions. This project was completed using R, and the results were embedded and the HTML file created using the knitr package. R help files were referenced to produce the output.</p>
+</body>
+</html>
