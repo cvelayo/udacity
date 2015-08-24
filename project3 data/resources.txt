@@ -1,0 +1,4 @@
+1. Udacity provided resources
+2. openstreetmap.org for map area
+3. http://overpass-api.de/ to download osm file
+4. MongoDB help files online
